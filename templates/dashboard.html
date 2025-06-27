@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Lyra</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="dashboard">
+        <h1>Hello, {{ name }} 👋</h1>
+        <p>This is your personal health dashboard.</p>
+        <a href="/logout">Logout</a>
+    </div>
+</body>
+</html>
