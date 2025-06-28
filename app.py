@@ -194,7 +194,8 @@ def generate_health_tip(bmi):
     else:
         return f"Your BMI is {bmi}. You are in the obese range. It's best to consult a doctor."
 
-
-
 if __name__ == '__main__':
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=True)
+
