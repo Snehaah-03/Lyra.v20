@@ -1,0 +1,138 @@
+<!-- templates/chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lyra Chat</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #fdf0f0, #fff);
+      margin: 0; padding: 0;
+      display: flex; justify-content: center; align-items: center;
+      height: 100vh;
+    }
+
+    #chat-container {
+      width: 400px;
+      max-height: 90vh;
+      background: #fff;
+      border: 2px solid #800020;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #messages {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .message {
+      margin: 10px 0;
+      padding: 12px 18px;
+      border-radius: 20px;
+      max-width: 80%;
+      line-height: 1.4;
+    }
+
+    .user {
+      background: #800020;
+      color: white;
+      align-self: flex-end;
+    }
+
+    .bot {
+      background: #f5e9e9;
+      color: #222;
+      align-self: flex-start;
+    }
+
+    #input-area {
+      display: flex;
+      padding: 10px;
+      border-top: 1.5px solid #ddd;
+      background: #f9f6f6;
+    }
+
+    #user-input {
+      flex: 1;
+      padding: 12px;
+      border: 1.5px solid #800020;
+      border-radius: 25px;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    #send-btn {
+      background: #800020;
+      color: white;
+      border: none;
+      margin-left: 10px;
+      padding: 12px 16px;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    #send-btn:hover {
+      background: #a8324a;
+    }
+  </style>
+</head>
+<body>
+  <div id="chat-container">
+    <div id="messages"></div>
+    <form id="chat-form">
+      <div id="input-area">
+        <input type="text" id="user-input" placeholder="Ask about diet, sleep, BMI..." autocomplete="off" required />
+        <button type="submit" id="send-btn">Send</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('user-input');
+    const messages = document.getElementById('messages');
+
+    function addMessage(text, sender) {
+      const div = document.createElement('div');
+      div.className = `message ${sender}`;
+      div.textContent = text;
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userText = input.value.trim();
+      if (!userText) return;
+
+      addMessage(userText, 'user');
+      input.value = '';
+      addMessage('Lyra is typing...', 'bot');
+
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: userText })
+        });
+
+        const data = await res.json();
+        messages.removeChild(messages.lastChild); // Remove 'typing...'
+        addMessage(data.reply, 'bot');
+      } catch (err) {
+        messages.removeChild(messages.lastChild);
+        addMessage("Oops! Lyra can't respond right now.", 'bot');
+      }
+    });
+  </script>
+</body>
+</html>

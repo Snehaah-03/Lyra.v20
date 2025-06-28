@@ -1,13 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Welcome to Lyra</title>
+    <meta charset="UTF-8">
+    <title>Lyra Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #fdf8f6; /* off-white */
+            margin: 0;
+            padding: 40px;
+            color: #333;
+        }
+
+        .dashboard {
+            background-color: #fff;
+            max-width: 500px;
+            margin: auto;
+            padding: 40px 30px;
+            border-radius: 25px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            border: 2px solid #800020;
+            text-align: center;
+        }
+
+        h1 {
+            color: #800020;
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 90%;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #800020;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 10px 25px;
+            cursor: pointer;
+            margin: 10px 0;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background-color: #a52a2a;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #444;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #800020;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     <div class="dashboard">
-        <h1>Hello, {{ name }} 👋</h1>
-        <p>This is your personal health dashboard.</p>
+        <h1>Welcome, {{ name }} 👋</h1>
+
+        <!-- 🧮 BMI Input Form -->
+        <form method="POST" action="/dashboard">
+            <input type="number" name="height" step="0.1" placeholder="Enter height (cm)" required><br>
+            <input type="number" name="weight" step="0.1" placeholder="Enter weight (kg)" required><br>
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- 🎤 Speak Button -->
+        <form method="POST" action="/speak">
+            <button type="submit">🎤 Speak height & weight</button>
+        </form>
+
+        <!-- 💬 Result -->
+        {% if result %}
+            <p class="result">{{ result }}</p>
+        {% endif %}
+
         <a href="/logout">Logout</a>
     </div>
 </body>

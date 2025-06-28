@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | Lyra</title>
+    <style>
+        body {
+            background-color: #f9f6f2; /* Off-white */
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            width: 350px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            color: #800000; /* Maroon */
+            margin-bottom: 30px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            background-color: #800000; /* Maroon */
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #a31c1c; /* Lighter maroon on hover */
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .signup-link a {
+            color: #800000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login to Lyra</h2>
+        <form method="POST">
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <input type="password" name="password" placeholder="Enter your password" required>
+            <button type="submit">Login</button>
+        </form>
+        <div class="signup-link">
+            Don't have an account? <a href="/signup">Sign up here</a>
+        </div>
+        {% if error %}
+        <div class="error-message">{{ error }}</div>
+        {% endif %}
+    </div>
+</body>
+</html>
